@@ -3,6 +3,7 @@ plugins {
 	id("org.springframework.boot") version "3.1.4"
 	id("io.spring.dependency-management") version "1.1.3"
 	application
+	jacoco
 }
 
 group = "hexlet.code"
@@ -44,5 +45,14 @@ application {
 tasks.register("stage") {
 	dependsOn("installDist")
 	doLast {
+	}
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test) // tests are required to run before generating the report
+	reports {
+		xml.required.set(true)
+		csv.required.set(false)
+		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
 	}
 }

@@ -20,6 +20,6 @@ COPY . /prj5
 
 RUN chmod +x gradlew
 
-RUN ./gradlew installDist
+RUN ./gradlew stage
 
 CMD ./build/install/app/bin/app

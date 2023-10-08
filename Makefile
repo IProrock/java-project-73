@@ -3,3 +3,6 @@ development:
 
 production:
 	export SPRING_PROFILES_ACTIVE=production
+
+diffChangelog:
+	./gradlew diffChangelog

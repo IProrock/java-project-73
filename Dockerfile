@@ -5,11 +5,11 @@ RUN apt-get update
 RUN apt-get install unzip
 
 #RUN wget -q https://services.gradle.org/distributions/gradle-8.3-bin.zip
-#
+
 #RUN unzip gradle-8.3-bin.zip
-#
+
 #RUN rm gradle-8.3-bin.zip
-#
+
 #RUN mv gradle-8.3 /opt/gradle
 
 ENV PATH=$PATH:/opt/gradle/gradle-8.3/bin
@@ -22,8 +22,8 @@ RUN chmod +x gradlew
 
 RUN ./gradlew installDist
 
-RUN ./gradlew dropAll
+#RUN ./gradlew dropAll
 
-RUN ./gradlew update
+#RUN ./gradlew update
 
 CMD ./build/install/app/bin/app

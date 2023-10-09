@@ -1,15 +1,12 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -25,7 +22,7 @@ public class UserService {
     public User createUser(User user) {
 
         String password = user.getPassword();
-        String hashedPassword = getHashFromPassword(password);
+        String hashedPassword = getPasswordHash(password);
 
         user.setPassword(hashedPassword);
         return userRepository.save(user);
@@ -36,7 +33,7 @@ public class UserService {
         userToUpd.setLastName(modifiedUser.getLastName());
         userToUpd.setEmail(modifiedUser.getEmail());
 
-        String password = getHashFromPassword(modifiedUser.getPassword());
+        String password = getPasswordHash(modifiedUser.getPassword());
         userToUpd.setPassword(password);
 
         User updatedUser = userRepository.save(userToUpd);
@@ -46,7 +43,7 @@ public class UserService {
 
     }
 
-    private static String getHashFromPassword(String password) {
+    private static String getPasswordHash(String password) {
 
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
@@ -68,9 +65,8 @@ public class UserService {
             e.printStackTrace();
         }
         Base64.Encoder enc = Base64.getEncoder();
-        String hashedPassword = salt + ":" + enc.encodeToString(hash);
+        String hashedPassword = enc.encodeToString(salt) + ":" + enc.encodeToString(hash);
 
         return hashedPassword;
-
     }
 }
